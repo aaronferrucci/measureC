@@ -1,6 +1,6 @@
 library(ggplot2)
 
-sale_price <- seq(0, 15e6, 20000)
+sale_price <- seq(0, 15e6, 100000)
 # 2) The rate of the tax shall be one-half of one percent (0.5%) (five dollars
 # ($5.00) for each one thousand dollars ($1,000.00) or fractional part thereof)
 # for the value of consideration for property paid in excess of one million
@@ -38,20 +38,21 @@ tier4 <- sapply(sale_price, tier4_fn)
 # five-hundred thousand dollars ($4,500,000) provided, however, that the
 # maximum amount of tax paid on any taxable transaction shall not exceed two
 # hundred thousand dollars ($200,000).
+cap_value <- 2e5 - max(tier2) - max(tier3) - max(tier4)
 tier5_fn <- function(x) {
-  min(2e5, 0.02 * max(0, x - 4.5e6))
+  min(cap_value, 0.02 * max(0, x - 4.5e6))
 }
 tier5 <- sapply(sale_price, tier5_fn)
                 
 df <- data.frame(
-  x = rep(sale_price,4),
+  sale_price = rep(sale_price,4),
   tier = c(rep("tier2", length(tier2)), rep("tier3", length(tier3)), rep("tier4", length(tier4)), rep("tier5", length(tier5))),
-  y = c(tier2, tier3, tier4, tier5)
+  transfer_tax = c(tier2, tier3, tier4, tier5)
 )
 df$tier <- factor(df$tier, levels=c("tier5", "tier4", "tier3", "tier2"))
 
 # Create the stacked barplot with a numeric x-axis
-p <- ggplot(df, aes(x = x, y = y, fill=tier)) +
+p <- ggplot(df, aes(x = sale_price, y = transfer_tax, fill=tier)) +
   geom_bar(stat="identity", position="stack")
 
 print(p)
