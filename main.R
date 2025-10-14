@@ -53,6 +53,8 @@ df$tier <- factor(df$tier, levels=c("tier5", "tier4", "tier3", "tier2"))
 
 # Create the stacked barplot with a numeric x-axis
 p <- ggplot(df, aes(x = sale_price, y = transfer_tax, fill=tier)) +
-  geom_bar(stat="identity", position="stack")
+  geom_bar(stat="identity", position="stack") +
+  scale_x_continuous(labels = function(x) sprintf("$%1.0fM", x / 1e6)) +
+  scale_y_continuous(labels = function(y) sprintf("$%1.0fk", y / 1e3))
 
 print(p)
