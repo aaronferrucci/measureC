@@ -50,11 +50,15 @@ df <- data.frame(
   transfer_tax = c(tier2, tier3, tier4, tier5)
 )
 df$tier <- factor(df$tier, levels=c("tier5", "tier4", "tier3", "tier2"))
-
+x_ticks <- c(0, 1.8e6, 2.5e6, 3.5e6, 4.5e6, 7.5e6, 10e6, 15e6)
+y_ticks <- c(0, max(tier2), max(tier2+tier3), max(tier2+tier3+tier4), 50000, 100000, 150000, 200000)
 # Create the stacked barplot with a numeric x-axis
 p <- ggplot(df, aes(x = sale_price, y = transfer_tax, fill=tier)) +
+  xlab("Sale Price") + ylab("Transfer Tax") +
+  theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1)) +
   geom_bar(stat="identity", position="stack") +
-  scale_x_continuous(labels = function(x) sprintf("$%1.0fM", x / 1e6)) +
-  scale_y_continuous(labels = function(y) sprintf("$%1.0fk", y / 1e3))
+  scale_x_continuous(labels = function(x) sprintf("$%1.1fM", x / 1e6), breaks=x_ticks, minor_breaks=c(0, 15e6)) +
+  scale_y_continuous(labels = function(y) sprintf("$%1.1fk", y / 1e3), breaks=y_ticks, minor_breaks=c(0, 200000)) +
+  scale_fill_hue(name="", labels=c("$4.5M+", "$3.5M-4.5M", "$2.5M-3.5M", "$1.8M-2.5M"))
 
 print(p)
