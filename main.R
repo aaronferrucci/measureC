@@ -7,7 +7,7 @@ sale_price <- seq(0, 15e6, 100000)
 # eight-hundred thousand dollars $1,800,000 but less than two million
 # five-hundred thousand dollars($2,500,000.00).
 tier2_fn <- function(x) {
-  0.005 * min(2.5e6, max(0, x - 1.8e6)) 
+  0.005 * min(2.5e6-1.8e6, max(0, x - 1.8e6))
 }
 tier2 <- sapply(sale_price, tier2_fn)
 
@@ -17,7 +17,7 @@ tier2 <- sapply(sale_price, tier2_fn)
 # five-hundred thousand dollars ($2,500,000) but less than three million
 # five-hundred thousand dollars ($3,500,000).
 tier3_fn <- function(x) {
-  0.01 * min(3.5e6, max(0, x - 2.5e6)) 
+  0.01 * min(3.5e6-2.5e6, max(0, x - 2.5e6))
 }
 tier3 <- sapply(sale_price, tier3_fn)
 
@@ -28,7 +28,7 @@ tier3 <- sapply(sale_price, tier3_fn)
 # of three million five-hundred dollars ($3,500,000) but less than four million
 # five-hundred thousand dollars($4,500,000).
 tier4_fn <- function(x) {
-  0.015 * min(4.5e6, max(0, x - 3.5e6)) 
+  0.015 * min(4.5e6-3.5e6, max(0, x - 3.5e6))
 }
 tier4 <- sapply(sale_price, tier4_fn)
                 
