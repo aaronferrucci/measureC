@@ -50,7 +50,7 @@ df <- data.frame(
   transfer_tax = c(tier2, tier3, tier4, tier5)
 )
 df$tier <- factor(df$tier, levels=c("tier5", "tier4", "tier3", "tier2"))
-x_ticks <- c(0, 1.8e6, 2.5e6, 3.5e6, 4.5e6, 6e6, 8e6, 10e6, 12.5e6, 15e6)
+x_ticks <- c(0, 1.8e6, 2.5e6, 3.5e6, 4.5e6, 6e6, 8e6, 10e6, 12e6, 13.1e6, 15e6)
 index_of_6e6 <- match(6e6, sale_price)
 m <- match(x_ticks, sale_price)
 y_ticks <- sapply(m, function(x) tier2[x] + tier3[x] + tier4[x] + tier5[x])
