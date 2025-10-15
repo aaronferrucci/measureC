@@ -54,16 +54,9 @@ x_ticks <- c(0, 1.8e6, 2.5e6, 3.5e6, 4.5e6, 6e6, 8e6, 10e6, 12.5e6, 15e6)
 index_of_6e6 <- match(6e6, sale_price)
 m <- match(x_ticks, sale_price)
 y_ticks <- sapply(m, function(x) tier2[x] + tier3[x] + tier4[x] + tier5[x])
-# y_ticks <- c(
-#   0,
-#   max(tier2),
-#   max(tier2+tier3),
-#   max(tier2+tier3+tier4),
-#   50000,
-#   100000,
-#   150000,
-#   200000
-# )
+# remove the repeated '0' entry
+y_ticks <- unique(y_ticks)
+
 # Create the stacked barplot with a numeric x-axis
 p <- ggplot(df, aes(x = sale_price, y = transfer_tax, fill=tier)) +
   xlab("Sale Price") + ylab("Transfer Tax") +
